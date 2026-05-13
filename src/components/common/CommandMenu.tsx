@@ -11,11 +11,10 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 
-import { socialLinks } from '@/config/Hero';
+
 import {
   FileText,
   Home,
-  Briefcase,
   FolderOpen,
   Mail,
   Sun,
@@ -24,7 +23,6 @@ import {
   Settings,
   Wrench,
   BookOpen,
-  MapPin,
   Terminal,
   Video,
   ArrowUp,
@@ -60,7 +58,9 @@ export function CommandMenu() {
     if (saved) {
       try {
         setRecent(JSON.parse(saved));
-      } catch (e) {}
+      } catch {
+        // ignore parse error
+      }
     }
   }, []);
 
@@ -158,7 +158,7 @@ export function CommandMenu() {
     );
   };
 
-  const renderItem = (item: any) => (
+  const renderItem = (item: { title: string; desc: string; icon: React.ElementType; shortcut?: string; action: () => void }) => (
     <CommandItem
       key={item.title}
       value={item.title}

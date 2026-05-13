@@ -86,7 +86,7 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} {footerConfig.developer}. {footerConfig.copyright}
         </p>
         <p className="text-[14px] text-muted-foreground">
-          You're the <span className="text-foreground font-medium">1st</span> visitor
+          You&apos;re the <span className="text-foreground font-medium">1st</span> visitor
         </p>
       </div>
     </Container>
