@@ -39,7 +39,6 @@ import * as React from 'react';
 
 const navigationItems = [
   { title: 'Go to Home', desc: 'Navigate to the homepage', href: '/', icon: Home, shortcut: 'H' },
-  { title: 'Go to Work', desc: 'View work experience', href: '/work-experience', icon: Briefcase, shortcut: 'W' },
   { title: 'Go to Blog', desc: 'Browse all blog posts', href: '/blog', icon: BookOpen, shortcut: 'B' },
   { title: 'Go to Resume', desc: 'View and download resume', href: '/resume', icon: FileText, shortcut: 'R' },
   { title: 'Go to Gears', desc: 'View hardware and equipment setup', href: '/gears', icon: Wrench, shortcut: 'G' },
@@ -47,7 +46,6 @@ const navigationItems = [
   { title: 'Go to Movies', desc: 'View favorite movies and shows', href: '/movies', icon: Video, shortcut: 'M' },
   { title: 'Go to Setup', desc: 'View development setup and tools', href: '/setup', icon: Settings, shortcut: 'S' },
   { title: 'Go to Terminal', desc: 'Terminal setup guide', href: '/terminal', icon: Terminal, shortcut: 'T' },
-  { title: 'Go to Journey', desc: 'Overview of my learning and career journey', href: '/journey', icon: MapPin, shortcut: 'J' },
   { title: 'Go to Projects', desc: 'View all my projects', href: '/projects', icon: FolderOpen, shortcut: 'P' },
 ];
 
@@ -180,16 +178,18 @@ export function CommandMenu() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="inline-flex h-9 items-center gap-2 rounded-full border border-border bg-muted/50 px-3 text-sm text-muted-foreground shadow-sm transition-all hover:bg-muted hover:text-foreground cursor-pointer"
+        className="inline-flex h-10 items-center gap-2.5 rounded-full border border-border/50 bg-transparent px-3 text-sm text-muted-foreground transition-all duration-300 hover:bg-accent/50 hover:text-accent-foreground active:scale-95 cursor-pointer"
         aria-label="Search"
       >
-        <Search className="size-3.5" />
-        <kbd className="pointer-events-none inline-flex items-center gap-0.5 font-mono text-[11px] font-medium text-muted-foreground">
-          Ctrl
-        </kbd>
-        <kbd className="pointer-events-none inline-flex h-5 min-w-5 items-center justify-center rounded border border-border bg-background px-1 font-mono text-[11px] font-medium text-muted-foreground">
-          K
-        </kbd>
+        <Search className="size-4" />
+        <div className="flex items-center gap-1">
+          <kbd className="pointer-events-none inline-flex h-6 items-center justify-center rounded bg-muted/80 px-2 font-sans text-[12px] font-medium text-muted-foreground">
+            Ctrl
+          </kbd>
+          <kbd className="pointer-events-none inline-flex h-6 min-w-6 items-center justify-center rounded bg-muted/80 px-2 font-sans text-[12px] font-medium text-muted-foreground">
+            K
+          </kbd>
+        </div>
       </button>
       <CommandDialog
         open={open}

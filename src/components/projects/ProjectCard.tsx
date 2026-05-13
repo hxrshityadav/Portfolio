@@ -1,12 +1,6 @@
 'use client';
 
 import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from '@/components/ui/card';
-import {
   Dialog,
   DialogContent,
   DialogTitle,
@@ -31,140 +25,133 @@ export function ProjectCard({ project }: ProjectCardProps) {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   return (
-    <Card className="group h-full w-full overflow-hidden border-gray-100 p-0 shadow-none transition-all dark:border-gray-800">
-      <CardHeader className="p-0">
-        <div className="group relative aspect-video overflow-hidden">
-          <Image
-            className="h-full w-full object-cover"
-            src={project.image}
-            alt={project.title}
-            width={1920}
-            height={1080}
-          />
-          {project.video && (
-            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-              <DialogTrigger asChild>
-                <div className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100 hover:backdrop-blur-xs">
-                  <button className="flex size-16 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-colors duration-200 group-hover:cursor-pointer hover:bg-white/30">
-                    <PlayCircle />
-                  </button>
-                </div>
-              </DialogTrigger>
-              <DialogContent className="w-full max-w-4xl border-0 p-0">
-                <div className="aspect-video w-full">
-                  <video
-                    className="h-full w-full rounded-lg object-cover"
-                    src={project.video}
-                    autoPlay
-                    loop
-                    controls
-                  />
-                </div>
-                <DialogTitle className="sr-only">{project.title}</DialogTitle>
-              </DialogContent>
-            </Dialog>
-          )}
-        </div>
-      </CardHeader>
+    <div className="group flex flex-col overflow-hidden rounded-xl border border-border bg-background transition-colors hover:border-border/80 hover:bg-muted/20">
+      {/* Image with video overlay */}
+      <div className="relative aspect-video w-full overflow-hidden">
+        <Image
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+          src={project.image}
+          alt={project.title}
+          width={1920}
+          height={1080}
+        />
+        {project.video && (
+          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+            <DialogTrigger asChild>
+              <div className="absolute inset-0 flex cursor-pointer items-center justify-center bg-black/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <button className="flex size-14 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-colors hover:bg-white/30">
+                  <PlayCircle />
+                </button>
+              </div>
+            </DialogTrigger>
+            <DialogContent className="w-full max-w-4xl border-0 p-0">
+              <div className="aspect-video w-full">
+                <video
+                  className="h-full w-full rounded-lg object-cover"
+                  src={project.video}
+                  autoPlay
+                  loop
+                  controls
+                />
+              </div>
+              <DialogTitle className="sr-only">{project.title}</DialogTitle>
+            </DialogContent>
+          </Dialog>
+        )}
+      </div>
 
-      <CardContent className="px-6">
-        <div className="space-y-4">
-          {/* Project Header - Title and Icons */}
-          <div className="flex items-center justify-between gap-4">
-            <Link href={project.projectDetailsPageSlug}>
-              <h3 className="group-hover:text-primary text-xl leading-tight font-semibold hover:cursor-pointer">
-                {project.title}
-              </h3>
-            </Link>
-            <div className="flex items-center gap-2">
+      {/* Card body */}
+      <div className="flex flex-1 flex-col gap-3 p-5">
+        {/* Title row */}
+        <div className="flex items-start justify-between gap-3">
+          <Link href={project.projectDetailsPageSlug ?? project.link} className="group/title">
+            <h3 className="text-base font-semibold leading-snug group-hover/title:text-muted-foreground transition-colors">
+              {project.title}
+            </h3>
+          </Link>
+
+          {/* Icon links */}
+          <div className="flex shrink-0 items-center gap-2">
+            {project.link && (
               <Tooltip>
-                <TooltipTrigger>
+                <TooltipTrigger asChild>
                   <Link
-                    className="text-secondary hover:text-primary flex size-6 items-center justify-center transition-colors"
                     href={project.link}
                     target="_blank"
+                    className="text-muted-foreground hover:text-foreground transition-colors"
                   >
-                    <Website />
+                    <Website className="size-4" />
                   </Link>
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p>View Website</p>
-                </TooltipContent>
+                <TooltipContent><p>Live site</p></TooltipContent>
               </Tooltip>
+            )}
+
+            {project.github && (
               <Tooltip>
-                <TooltipTrigger>
-                  {project.github && (
-                    <Link
-                      className="text-secondary hover:text-primary flex size-6 items-center justify-center transition-colors"
-                      href={project.github}
-                      target="_blank"
-                    >
-                      <Github />
-                    </Link>
-                  )}
+                <TooltipTrigger asChild>
+                  <Link
+                    href={project.github}
+                    target="_blank"
+                    className="text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <Github className="size-4" />
+                  </Link>
                 </TooltipTrigger>
-                <TooltipContent>
-                  <p>View GitHub</p>
-                </TooltipContent>
+                <TooltipContent><p>GitHub repo</p></TooltipContent>
               </Tooltip>
-            </div>
-          </div>
-
-          {/* Description */}
-          <p className="text-secondary line-clamp-3">{project.description}</p>
-
-          {/* Technologies */}
-          <div>
-            <h4 className="text-secondary mb-2 text-sm font-medium">
-              Technologies
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {project.technologies.map((technology, index) => (
-                <Tooltip key={index}>
-                  <TooltipTrigger>
-                    <div className="size-6 transition-all duration-300 hover:scale-120 hover:cursor-pointer">
-                      {technology.icon}
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>{technology.name}</p>
-                  </TooltipContent>
-                </Tooltip>
-              ))}
-            </div>
-          </div>
-        </div>
-      </CardContent>
-
-      {project.details && (
-        <CardFooter className="flex justify-between p-6 pt-0">
-          <div
-            className={`flex items-center gap-1 rounded-md px-2 py-1 text-xs ${
-              project.isWorking
-                ? 'border-green-300 bg-green-500/10'
-                : 'border-red-300 bg-red-500/10'
-            }`}
-          >
-            {project.isWorking ? (
-              <>
-                <div className="size-2 animate-pulse rounded-full bg-green-500" />
-                All Systems Operational
-              </>
-            ) : (
-              <>
-                <div className="size-2 animate-pulse rounded-full bg-red-500" />
-                Building
-              </>
             )}
           </div>
-          <Link
-            href={project.projectDetailsPageSlug}
-            className="text-secondary hover:text-primary flex items-center gap-2 text-sm underline-offset-4 transition-colors hover:underline"
+        </div>
+
+        {/* Description */}
+        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+          {project.description}
+        </p>
+
+        {/* Tech icons */}
+        <div className="flex flex-wrap gap-2">
+          {project.technologies.map((tech, i) => (
+            <Tooltip key={i}>
+              <TooltipTrigger asChild>
+                <div className="size-5 transition-transform hover:scale-110 cursor-pointer">
+                  {tech.icon}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent><p>{tech.name}</p></TooltipContent>
+            </Tooltip>
+          ))}
+        </div>
+
+        {/* Footer row */}
+        <div className="mt-auto flex items-center justify-between border-t border-border pt-3">
+          {/* Status */}
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11px] font-medium ${
+              project.isWorking
+                ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-400'
+                : 'bg-red-500/15 text-red-700 dark:text-red-400'
+            }`}
           >
-            View Details <ArrowRight className="size-4" />
-          </Link>
-        </CardFooter>
-      )}
-    </Card>
+            <span
+              className={`size-1.5 rounded-full ${
+                project.isWorking ? 'bg-emerald-500' : 'bg-red-500'
+              }`}
+            />
+            {project.isWorking ? 'Live' : 'In progress'}
+          </span>
+
+          {/* View details */}
+          {project.details && (
+            <Link
+              href={project.projectDetailsPageSlug ?? project.link}
+              className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              View details <ArrowRight className="size-3" />
+            </Link>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }

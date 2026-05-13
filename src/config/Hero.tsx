@@ -51,7 +51,7 @@ export const skillComponents = {
 
 export const heroConfig = {
   // Personal Information
-  name: 'Harshit',
+  name: 'Harshit Yadav',
   title: 'Software Developer • Content Creator',
   avatar: '/assets/logo.png',
 

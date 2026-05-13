@@ -158,7 +158,7 @@ export const ThemeToggleButton = ({
       variant="ghost"
       size="icon"
       className={cn(
-        'size-10 cursor-pointer p-0 transition-all duration-300 active:scale-95',
+        'size-10 rounded-full border border-border/50 bg-background/80 backdrop-blur-md text-muted-foreground cursor-pointer p-0 transition-all duration-300 hover:bg-accent/50 hover:text-accent-foreground active:scale-95',
         className,
       )}
       onClick={toggleTheme}
