@@ -2,7 +2,7 @@
 
 A modern, highly-responsive, and sleek personal portfolio website built with Next.js 15, TypeScript, Tailwind CSS, and Shadcn UI. Features a blog system, project showcase, reading list, hardware setup, and an integrated Command Palette for seamless navigation.
 
-![Portfolio Preview](/public/meta/hero.png)
+
 
 ## Features
 
