@@ -145,7 +145,7 @@ export function CommandMenu() {
     ...actionItems,
   ];
 
-  const recentItems = recent.map((title) => allItems.find((i) => i.title === title)).filter(Boolean);
+  const recentItems = recent.map((title) => allItems.find((i) => i.title === title)).filter((item): item is typeof allItems[0] => item !== undefined);
 
   const ItemShortcut = ({ shortcut }: { shortcut?: string }) => {
     if (!shortcut) return null;
