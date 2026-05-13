@@ -1,4 +1,4 @@
-import UmamiAnalytics from '@/components/analytics/UmamiAnalytics';
+
 import ChatBubble from '@/components/common/ChatBubble';
 import Footer from '@/components/common/Footer';
 import Navbar from '@/components/common/Navbar';
@@ -35,6 +35,9 @@ export default function RootLayout({
   return (
     <ViewTransitions>
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <script defer src="https://cloud.umami.is/script.js" data-website-id="50114b90-1237-4566-b3e2-39cd5760b35f"></script>
+        </head>
         <body className={`${dmSans.variable} ${spaceMono.variable} ${spaceMono.className} antialiased`}>
           <ThemeProvider
             attribute="class"
@@ -49,7 +52,6 @@ export default function RootLayout({
               <Quote />
               <Footer />
               <ChatBubble />
-              <UmamiAnalytics />
             </ReactLenis>
 
             {/* Bottom progressive blur fade */}
