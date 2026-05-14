@@ -8,10 +8,10 @@ import { Project } from '@/types/project';
 
 export const projects: Project[] = [
   {
-    title: 'AI Resume Builder',
+    title: 'ResuMate: AI Resume Builder',
     description:
       'A powerful AI-driven resume builder that helps users craft professional resumes instantly.',
-    image: '/project/ai-resume-builder-v2.png',
+    image: '/project/resumate.png',
 
     link: 'https://resumate-olive.vercel.app/',
     technologies: [
