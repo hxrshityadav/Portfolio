@@ -11,7 +11,7 @@ export const projects: Project[] = [
     title: 'AI Resume Builder',
     description:
       'A powerful AI-driven resume builder that helps users craft professional resumes instantly.',
-    image: '/project/ai-resume-builder.png',
+    image: '/project/ai-resume-builder-v2.png',
 
     link: 'https://resumate-olive.vercel.app/',
     technologies: [
