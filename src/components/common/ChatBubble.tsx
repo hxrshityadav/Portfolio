@@ -33,10 +33,7 @@ const initialMessages: Message[] = [
     id: 1,
     text: "Hello! I'm Ram's Portfolio Assistant. How can I help you?",
     sender: 'bot',
-    timestamp: new Date().toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    }),
+    timestamp: '', // Populated on client to prevent hydration mismatch
   },
 ];
 
@@ -46,6 +43,24 @@ const ChatBubble: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { triggerHaptic, isMobile } = useHapticFeedback();
+
+  // Set initial timestamp on mount to avoid hydration errors
+  useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length > 0 && prev[0].timestamp === '') {
+        const newMessages = [...prev];
+        newMessages[0] = {
+          ...newMessages[0],
+          timestamp: new Date().toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          }),
+        };
+        return newMessages;
+      }
+      return prev;
+    });
+  }, []);
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
