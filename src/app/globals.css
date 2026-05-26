@@ -259,3 +259,12 @@ body {
     linear-gradient(to bottom, color-mix(in srgb, var(--foreground) 3%, transparent) 1px, transparent 1px);
   background-attachment: fixed;
 }
+
+/* Hide scrollbar globally for all browsers */
+*::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

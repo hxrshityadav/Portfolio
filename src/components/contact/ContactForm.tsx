@@ -1,13 +1,12 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+  SectionHeading,
+  SectionHeadingBody,
+  SectionHeadingTagline,
+  SectionHeadingTitle,
+} from "@/components/shadcncraft/pro-marketing/section-heading";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -25,8 +24,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
-import Chat from '../svgs/Chat';
-
 const contactFormSchema = z.object({
   name: z.string().min(2, {
     message: 'Name must be at least 2 characters.',
@@ -34,14 +31,6 @@ const contactFormSchema = z.object({
   email: z.string().email({
     message: 'Please enter a valid email address.',
   }),
-  phone: z
-    .string()
-    .min(10, {
-      message: 'Phone number must be at least 10 characters.',
-    })
-    .regex(/^[\+]?[1-9][\d]{0,15}$/, {
-      message: 'Please enter a valid phone number.',
-    }),
   message: z
     .string()
     .min(10, {
@@ -62,7 +51,6 @@ export default function ContactForm() {
     defaultValues: {
       name: '',
       email: '',
-      phone: '',
       message: '',
     },
   });
@@ -76,7 +64,11 @@ export default function ContactForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          message: data.message,
+        }),
       });
 
       const result = await response.json();
@@ -98,26 +90,31 @@ export default function ContactForm() {
   };
 
   return (
-    <Card className="border-none bg-transparent shadow-none">
-      <CardHeader>
-        <CardTitle>Send me a message</CardTitle>
-        <CardDescription>
-          Fill out the form below and I will get back to you as soon as
-          possible.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+    <section className="py-12 lg:py-20">
+      <div className="mx-auto flex max-w-7xl flex-col gap-12 px-5 lg:gap-16 lg:px-8">
+        {/* Section Heading */}
+        <div className="mx-auto w-full max-w-md">
+          <SectionHeading alignment="center">
+            <SectionHeadingTagline>Get In Touch</SectionHeadingTagline>
+            <SectionHeadingTitle>Let&apos;s Build Something Together</SectionHeadingTitle>
+            <SectionHeadingBody>
+              Available for full-time roles, freelance projects, collaborations, or just helping you build something cool.
+            </SectionHeadingBody>
+          </SectionHeading>
+        </div>
+
+        {/* Contact Form */}
+        <div className="mx-auto w-full max-w-md">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-3" aria-label="Contact form">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name *</FormLabel>
+                  <FormItem className="flex w-full flex-col gap-1.5 space-y-0">
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your full name" {...field} />
+                      <Input placeholder="Joe Smith" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -125,71 +122,48 @@ export default function ContactForm() {
               />
               <FormField
                 control={form.control}
-                name="phone"
+                name="email"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone *</FormLabel>
+                  <FormItem className="flex w-full flex-col gap-1.5 space-y-0">
+                    <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="+1 (123) xxx-xxxx" {...field} />
+                      <Input placeholder="joe@example.com" type="email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email *</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="your.email@example.com"
-                      type="email"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="message"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Message *</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Tell me about your project or just say hello..."
-                      className="min-h-[120px] resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Button type="submit" className="w-fit" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Sending your message...
-                </>
-              ) : (
-                <>
-                  <Chat className="mr-2 h-4 w-4" />
-                  Send Message
-                </>
-              )}
-            </Button>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem className="flex w-full flex-col gap-1.5 space-y-0">
+                    <FormLabel>Message</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Hi, this is my message"
+                        className="h-16 resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" disabled={isSubmitting} className="w-full cursor-pointer flex items-center justify-center gap-2 mt-2">
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  'Send message'
+                )}
+              </Button>
+            </form>
+          </Form>
+        </div>
+      </div>
+    </section>
   );
 }

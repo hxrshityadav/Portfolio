@@ -6,6 +6,7 @@ import Hero from '@/components/landing/Hero';
 import Skills from '@/components/landing/Skills';
 import Work from '@/components/landing/Projects';
 import Setup from '@/components/landing/Setup';
+import ContactForm from '@/components/contact/ContactForm';
 import React from 'react';
 
 export default function page() {
@@ -18,6 +19,9 @@ export default function page() {
       <Skills />
       <Blog />
       <Setup />
+      
+      {/* Contact Section */}
+      <ContactForm />
     </Container>
   );
 }

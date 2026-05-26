@@ -49,12 +49,12 @@ function CommandDialog({
       </DialogHeader>
       <DialogContent
         className={cn(
-          'overflow-hidden p-0 shadow-2xl sm:max-w-[500px] sm:rounded-xl bg-popover border border-border',
+          'overflow-hidden p-0 shadow-2xl sm:max-w-[420px] sm:rounded-xl bg-[#0e0e10] border border-neutral-800/80',
           className
         )}
         showCloseButton={showCloseButton}
       >
-        <Command className="[&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-item]]:px-3 [&_[cmdk-item]]:py-2 [&_[cmdk-item]_svg]:h-4 [&_[cmdk-item]_svg]:w-4 bg-transparent">
+        <Command className="[&_[cmdk-group-heading]]:text-neutral-500 [&_[cmdk-group-heading]]:px-4 [&_[cmdk-group-heading]]:font-semibold [&_[cmdk-group-heading]]:text-[11px] [&_[cmdk-group-heading]]:uppercase [&_[cmdk-group-heading]]:tracking-wider [&_[cmdk-group]]:px-3 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-4 [&_[cmdk-input-wrapper]_svg]:w-4 [&_[cmdk-item]]:px-3 [&_[cmdk-item]]:py-2.5 [&_[cmdk-item]_svg]:h-4 [&_[cmdk-item]_svg]:w-4 bg-transparent">
           {children}
         </Command>
       </DialogContent>
@@ -69,13 +69,13 @@ function CommandInput({
   return (
     <div
       data-slot="command-input-wrapper"
-      className="flex items-center gap-2 px-3 mx-2 mt-2 mb-1 rounded-lg bg-muted/50"
+      className="flex items-center gap-2 px-3 mx-4 mt-4 mb-2.5 rounded-lg border border-neutral-800/80 bg-neutral-900/30"
     >
-      <SearchIcon className="size-4 shrink-0 opacity-50" />
+      <SearchIcon className="size-4 shrink-0 text-neutral-500" />
       <CommandPrimitive.Input
         data-slot="command-input"
         className={cn(
-          'placeholder:text-muted-foreground flex h-11 w-full bg-transparent py-3 text-sm outline-hidden disabled:cursor-not-allowed disabled:opacity-50',
+          'placeholder:text-neutral-500 flex h-10 w-full bg-transparent py-2.5 text-sm text-foreground outline-hidden disabled:cursor-not-allowed disabled:opacity-50',
           className,
         )}
         {...props}

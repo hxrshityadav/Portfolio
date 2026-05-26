@@ -11,7 +11,6 @@ import {
   CommandShortcut,
 } from '@/components/ui/command';
 
-
 import {
   FileText,
   Home,
@@ -49,24 +48,15 @@ const navigationItems = [
 
 export function CommandMenu() {
   const [open, setOpen] = React.useState(false);
-  const [recent, setRecent] = React.useState<string[]>([]);
   const router = useRouter();
   const { theme, setTheme } = useTheme();
 
   React.useEffect(() => {
-    const saved = localStorage.getItem('recentCommands');
-    if (saved) {
-      try {
-        setRecent(JSON.parse(saved));
-      } catch {
-        // ignore parse error
-      }
-    }
-  }, []);
-
-  React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+      if (e.key === '/') {
+        if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+          return;
+        }
         e.preventDefault();
         setOpen((open) => !open);
         return;
@@ -114,19 +104,14 @@ export function CommandMenu() {
     return () => document.removeEventListener('keydown', down);
   }, [router, setTheme, theme]);
 
-  const runCommand = React.useCallback((command: () => void, title: string) => {
+  const runCommand = React.useCallback((command: () => void) => {
     setOpen(false);
     command();
-    setRecent((prev) => {
-      const newRecent = [title, ...prev.filter((t) => t !== title)].slice(0, 3);
-      localStorage.setItem('recentCommands', JSON.stringify(newRecent));
-      return newRecent;
-    });
   }, []);
 
   const featureItems = [
     { title: 'Toggle Theme', desc: 'Switch between light and dark mode', icon: theme === 'dark' ? Sun : Moon, shortcut: 'T', action: () => setTheme(theme === 'dark' ? 'light' : 'dark') },
-    { title: 'Command Palette', desc: 'Open the command palette', icon: Search, shortcut: 'Ctrl+K', action: () => setOpen(true) },
+    { title: 'Command Palette', desc: 'Open the command palette', icon: Search, shortcut: '/', action: () => setOpen(true) },
     { title: 'Scroll to Top', desc: 'Scroll to the top of the page', icon: ArrowUp, shortcut: 'Shift+↑', action: () => window.scrollTo({ top: 0, behavior: 'smooth' }) },
   ];
 
@@ -139,36 +124,28 @@ export function CommandMenu() {
     { title: 'Change Oneko Avatar', desc: 'Cycle to the next neko variant', icon: ImageIcon, shortcut: 'Ctrl+X', action: () => console.log('Oneko avatar') },
   ];
 
-  const allItems = [
-    ...navigationItems.map((item) => ({ ...item, action: () => router.push(item.href) })),
-    ...featureItems,
-    ...actionItems,
-  ];
-
-  const recentItems = recent.map((title) => allItems.find((i) => i.title === title)).filter((item): item is typeof allItems[0] => item !== undefined);
-
   const ItemShortcut = ({ shortcut }: { shortcut?: string }) => {
     if (!shortcut) return null;
     return (
-      <CommandShortcut>
-        <kbd className="bg-muted text-muted-foreground flex min-w-5 items-center justify-center rounded border border-border px-1.5 font-mono text-[10px] font-medium uppercase">
+      <CommandShortcut className="opacity-70">
+        <kbd className="bg-neutral-800 text-neutral-400 flex min-w-5 items-center justify-center rounded border border-neutral-700/60 px-1.5 py-0.5 font-mono text-[9px] font-medium uppercase">
           {shortcut}
         </kbd>
       </CommandShortcut>
     );
   };
 
-  const renderItem = (item: { title: string; desc: string; icon: React.ElementType; shortcut?: string; action: () => void }) => (
+  const renderItem = (item: { title: string; desc?: string; icon: React.ElementType; shortcut?: string; action: () => void }) => (
     <CommandItem
       key={item.title}
       value={item.title}
-      onSelect={() => runCommand(item.action, item.title)}
-      className="py-3"
+      onSelect={() => runCommand(item.action)}
+      className="py-3 px-3 mx-1 my-0.5 rounded-lg cursor-pointer flex items-center gap-3 data-[selected=true]:bg-neutral-800/60 data-[selected=true]:text-white text-neutral-300"
     >
-      <item.icon className="mr-3 size-4 shrink-0" />
-      <div className="flex flex-col gap-0.5">
-        <span className="font-medium leading-none">{item.title}</span>
-        <span className="text-xs text-muted-foreground">{item.desc}</span>
+      <item.icon className="size-4 shrink-0 text-neutral-500" />
+      <div className="flex flex-col gap-0.5 w-full">
+        <span className="font-semibold text-[14px] leading-tight">{item.title}</span>
+        {item.desc && <span className="text-[11px] text-neutral-500 font-medium leading-none">{item.desc}</span>}
       </div>
       <ItemShortcut shortcut={item.shortcut} />
     </CommandItem>
@@ -183,11 +160,8 @@ export function CommandMenu() {
       >
         <Search className="size-4" />
         <div className="flex items-center gap-1">
-          <kbd className="pointer-events-none inline-flex h-6 items-center justify-center rounded bg-muted/80 px-2 font-sans text-[12px] font-medium text-muted-foreground">
-            Ctrl
-          </kbd>
           <kbd className="pointer-events-none inline-flex h-6 min-w-6 items-center justify-center rounded bg-muted/80 px-2 font-sans text-[12px] font-medium text-muted-foreground">
-            K
+            /
           </kbd>
         </div>
       </button>
@@ -199,34 +173,54 @@ export function CommandMenu() {
         showCloseButton={false}
       >
         <CommandInput placeholder="Type a command or search..." />
-        <CommandList>
+        <CommandList className="py-2">
           <CommandEmpty>No results found.</CommandEmpty>
-          
-          {recentItems.length > 0 && (
-            <>
-              <CommandGroup heading="Recent">
-                {recentItems.map(renderItem)}
-              </CommandGroup>
-              <CommandSeparator />
-            </>
-          )}
 
           <CommandGroup heading="Navigation">
             {navigationItems.map((item) => renderItem({ ...item, action: () => router.push(item.href) }))}
           </CommandGroup>
           
-          <CommandSeparator />
+          <CommandSeparator className="my-1.5 bg-neutral-800/80" />
           
           <CommandGroup heading="Features">
             {featureItems.map(renderItem)}
           </CommandGroup>
 
-          <CommandSeparator />
+          <CommandSeparator className="my-1.5 bg-neutral-800/80" />
 
           <CommandGroup heading="Actions">
             {actionItems.map(renderItem)}
           </CommandGroup>
         </CommandList>
+
+        {/* Custom Footer */}
+        <div className="flex items-center justify-between border-t border-neutral-800/80 px-4 py-2.5 bg-neutral-900/40 text-[11px] text-neutral-500 font-medium select-none">
+          <div className="flex items-center gap-1.5">
+            <kbd className="flex h-5 min-w-8 items-center justify-center rounded border border-neutral-800 bg-neutral-900 px-1.5 font-mono text-[9px] text-neutral-400">
+              Esc
+            </kbd>
+            <span>Exit</span>
+          </div>
+          <div className="flex items-center gap-1.5 mr-auto ml-6">
+            <kbd className="flex h-5 min-w-5 items-center justify-center rounded border border-neutral-800 bg-neutral-900 px-1.5 font-mono text-[9px] text-neutral-400">
+              ↵
+            </kbd>
+            <span>Go to Page</span>
+          </div>
+          <div className="flex items-center">
+            {/* Custom Resend-style logo icon */}
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              className="text-neutral-600 hover:text-neutral-400 transition-colors"
+            >
+              <path d="M4 18h16a1 1 0 001-1V7a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1zM2 7a2 2 0 012-2h16a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V7z" fillRule="evenodd" clipRule="evenodd" />
+              <path d="M5 9h14v2H5V9zm0 4h10v2H5v-2z" />
+            </svg>
+          </div>
+        </div>
       </CommandDialog>
     </>
   );
