@@ -1,107 +1,136 @@
-# Harshit Yadav's Personal Portfolio
+# ✨ Harshit Yadav's Portfolio
 
-A modern, highly-responsive, and sleek personal portfolio website built with Next.js 15, TypeScript, Tailwind CSS, and Shadcn UI. Features a blog system, project showcase, reading list, hardware setup, and an integrated Command Palette for seamless navigation.
+<div align="center">
+  <p align="center">
+    A premium, highly-responsive, and sleek developer portfolio built using modern frontend technologies.
+  </p>
 
+  <p align="center">
+    <img src="https://img.shields.io/badge/Next.js-15.5-000000?style=for-the-badge&logo=nextdotjs&logoColor=white" alt="Next.js" />
+    <img src="https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React" />
+    <img src="https://img.shields.io/badge/Tailwind_CSS-v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS" />
+    <img src="https://img.shields.io/badge/TypeScript-5.9-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  </p>
 
+  <p align="center">
+    <a href="#features">Features</a> •
+    <a href="#getting-started">Getting Started</a> •
+    <a href="#project-configuration">Configuration</a> •
+    <a href="#directory-structure">Structure</a>
+  </p>
+</div>
 
-## Features
+---
 
-- **Next.js 15** with App Router
-- **Tailwind CSS** for comprehensive styling
-- **Shadcn UI** & Framer Motion components
-- **Intelligent Command Palette** (`Ctrl + K` / `Cmd + K`) for instant navigation
-- **Dark/Light Mode** with intelligent frosted glass themes
-- **Fully Responsive** design
-- **MDX** support for blog posts
-- **SEO** optimized out of the box
-- **TypeScript** for robust type safety
-- **Umami Analytics** for privacy-focused web analytics
+## 🚀 Key Features
 
-## Prerequisites
+* **⚡ Cutting Edge**: Built on Next.js 15 (App Router, Turbopack) & React 19 for maximum performance and instant load times.
+* **🔍 Command Center**: Press `/` anywhere on the site to trigger a sleek, keyboard-driven navigation palette allowing instant navigation across pages, built with Radix and `cmdk`.
+* **🎨 Rich Aesthetics**: Clean dark mode with frosted glassmorphic cards, harmonized layout grids, and premium micro-animations powered by Framer Motion.
+* **📬 Contact Form**: Styled Zod-validated contact form with client-side loading indicators and local terminal submission logging.
+* **🐱 Oneko Cat Sprite**: A playful interactive cat sprite that chases your mouse cursor around the screen (configurable!).
+* **📄 Markdown Blog**: Dynamic blog system powered by MDX allowing rich code blocks and easy publishing.
+* **📊 Analytics & SEO**: SEO optimized out of the box with custom dynamic metadata headers and optional privacy-friendly Umami Analytics.
 
-Before you begin running this project locally, ensure you have the following installed:
+---
 
-- Node.js (v18 or higher)
-- Bun (preferred) or npm
+## 🛠️ Tech Stack & Tools
 
-## Environment Variables
+* **Core Framework**: [Next.js 15](https://nextjs.org/) (App Router), React 19
+* **Styling**: Tailwind CSS v4, custom utility systems
+* **UI Components**: Shadcn UI, Radix primitives
+* **Animations**: Framer Motion / Motion
+* **Forms & Validation**: React Hook Form, Zod
+* **Icons**: Lucide React
+* **Scrolling**: Lenis smooth scrolling
 
-Create a `.env` file in the root directory with the following variables:
+---
+
+## ⚙️ Environment Variables
+
+Create a `.env` file in the root directory:
 
 ```env
-TELEGRAM_BOT_TOKEN="your-token"
-TELEGRAM_CHAT_ID="your-chat-id"
-GEMINI_API_KEY="your-api-key"
 NODE_ENV="development"
 NEXT_PUBLIC_URL="http://localhost:3000"
-NEXT_PUBLIC_UMAMI_SRC="your-umami-script-url"
-NEXT_PUBLIC_UMAMI_ID="your-umami-website-id"
+
+# (Optional) Umami Analytics
+NEXT_PUBLIC_UMAMI_SRC="https://[your-umami-instance]/script.js"
+NEXT_PUBLIC_UMAMI_ID="your-website-id"
+
+# (Optional) AI Chatbot Integration
+GEMINI_API_KEY="your-api-key"
 ```
 
-### Setting up Umami Analytics (Optional)
+---
 
-1. Visit Umami:
-   - Self-host Umami or use [Umami Cloud](https://cloud.umami.is)
-   - Follow Umami's [installation guide](https://umami.is/docs/install)
+## 🏁 Getting Started
 
-2. Get your credentials:
-   - Copy your Umami script URL (ends with `/script.js`)
-   - Get your website ID from the Umami dashboard
+### 1. Clone the Repository
+```bash
+git clone https://github.com/hxrshityadav/Portfolio.git
+cd Portfolio
+```
 
-3. Configure environment variables:
-   ```env
-   NEXT_PUBLIC_UMAMI_SRC="https://[your-umami-instance]/script.js"
-   NEXT_PUBLIC_UMAMI_ID="your-website-id"
-   ```
+### 2. Install Dependencies
+```bash
+# Using bun (recommended)
+bun install
 
-## Getting Started
+# Or using npm
+npm install
+```
 
-1. Clone the repository:
+### 3. Start the Development Server
+```bash
+# Using bun
+bun dev
 
-   ```bash
-   git clone https://github.com/hxrshityadav/Portfolio.git
-   cd Portfolio
-   ```
+# Or using npm
+npm run dev
+```
 
-2. Install dependencies:
+Open [http://localhost:3000](http://localhost:3000) in your browser to view your portfolio!
 
-   ```bash
-   # Using bun (recommended)
-   bun install
+---
 
-   # Using npm
-   npm install
-   ```
+## 📁 Directory Structure
 
-3. Run the development server:
+```text
+├── src/
+│   ├── app/                # Next.js pages & API routes
+│   │   ├── api/            # Contact & Chat API handlers
+│   │   ├── contact/        # Standalone Contact page
+│   │   ├── layout.tsx      # App wrapper (Lenis, Navbar, Footer)
+│   │   └── page.tsx        # Homepage sections
+│   ├── components/
+│   │   ├── common/         # Navbar, Footer, CommandMenu, Scroll top
+│   │   ├── contact/        # Stateful Contact form component
+│   │   ├── landing/        # Homepage section components (Hero, Projects, Skills)
+│   │   └── ui/             # Reusable Shadcn UI primitives
+│   ├── config/             # Config files for easy content updates
+│   ├── lib/                # Utility helpers & Zod schemas
+│   └── types/              # TypeScript typings
+```
 
-   ```bash
-   # Using bun
-   bun dev
+---
 
-   # Using npm
-   npm run dev
-   ```
+## 🔧 Content Customization
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+You don't need to touch the component code to change your content! Most data is managed via modular configurations inside `src/config/`:
 
-## Project Configuration
+* `Hero.tsx` — Avatar, social links, bio text, and introductory headers.
+* `Navbar.tsx` — Main navigation links.
+* `Projects.tsx` — Project showcase list.
+* `Gears.tsx` — Hardware & equipment setup.
+* `Setup.tsx` — Editor themes, VS Code setup instructions.
+* `Contact.tsx` — Header titles & forms configurations.
+* `Footer.tsx` — Developer copyright info.
+* `Meta.tsx` — Site title, tags, and default SEO parameters.
+* `cat.ts` — Toggle the interactive cursor-chasing cat on/off.
 
-The project uses modular configuration files inside the `src/config` directory so content can be managed easily:
+---
 
-- `About.tsx` - About section content
-- `Contact.tsx` - Contact settings
-- `Footer.tsx` - Footer links and content
-- `Gears.tsx` - Setup/gear section
-- `Hero.tsx` - Hero section content & Socials
-- `Meta.tsx` - SEO and metadata
-- `Navbar.tsx` - Navigation links
-- `Projects.tsx` - Project showcase list
-- `Quote.ts` - Random quotes configuration
-- `Resume.ts` - Resume section details
-- `Setup.tsx` - Development setup information
-- `cat.ts` - Enable/disable the interactive cat
+## 📄 License
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
