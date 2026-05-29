@@ -85,56 +85,58 @@ export default function Footer() {
       });
   }, []);
   return (
-    <Container className="py-16">
-      <div className="flex flex-col gap-16 sm:flex-row sm:justify-between">
-        {/* Navigate Group */}
-        <div className="flex-1 max-w-lg">
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            NAVIGATE
-          </h4>
-          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
-            {navigateLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                className="text-[15px] text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {link.name}
-              </Link>
-            ))}
+    <footer className="w-full border-t border-zinc-200 dark:border-[#1c1c1f] bg-zinc-50 dark:bg-[#09090b] py-16 mt-20">
+      <Container className="animate-none">
+        <div className="flex flex-col gap-16 sm:flex-row sm:justify-between">
+          {/* Navigate Group */}
+          <div className="flex-1 max-w-lg">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              NAVIGATE
+            </h4>
+            <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3">
+              {navigateLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="text-[15px] text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Connect Group */}
+          <div className="sm:text-left">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              CONNECT
+            </h4>
+            <div className="mt-6 grid grid-cols-4 gap-3">
+              {connectLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  target="_blank"
+                  className="flex size-[42px] items-center justify-center rounded-[10px] border border-border/50 bg-transparent text-muted-foreground transition-all hover:bg-muted/50 hover:text-foreground hover:border-border"
+                  aria-label={link.name}
+                >
+                  {link.icon}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* Connect Group */}
-        <div className="sm:text-left">
-          <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            CONNECT
-          </h4>
-          <div className="mt-6 grid grid-cols-4 gap-3">
-            {connectLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                target="_blank"
-                className="flex size-[42px] items-center justify-center rounded-[10px] border border-border/50 bg-transparent text-muted-foreground transition-all hover:bg-muted/50 hover:text-foreground hover:border-border"
-                aria-label={link.name}
-              >
-                {link.icon}
-              </Link>
-            ))}
-          </div>
+        {/* Divider & Copyright */}
+        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-zinc-200 dark:border-[#1c1c1f] pt-8 sm:flex-row">
+          <p className="text-[14px] text-muted-foreground">
+            &copy; {new Date().getFullYear()} {footerConfig.developer}. {footerConfig.copyright}
+          </p>
+          <p className="text-[14px] text-muted-foreground">
+            You&apos;re the <span className="text-foreground font-medium">{visitorCount}</span> visitor
+          </p>
         </div>
-      </div>
-
-      {/* Divider & Copyright */}
-      <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-border pt-8 sm:flex-row">
-        <p className="text-[14px] text-muted-foreground">
-          &copy; {new Date().getFullYear()} {footerConfig.developer}. {footerConfig.copyright}
-        </p>
-        <p className="text-[14px] text-muted-foreground">
-          You&apos;re the <span className="text-foreground font-medium">{visitorCount}</span> visitor
-        </p>
-      </div>
-    </Container>
+      </Container>
+    </footer>
   );
 }
