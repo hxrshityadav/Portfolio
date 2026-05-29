@@ -28,7 +28,9 @@ import Instagram from '@/components/svgs/Instagram';
 import LinkedIn from '@/components/svgs/LinkedIn';
 import Mail from '@/components/svgs/Mail';
 import Medium from '@/components/svgs/Medium';
+import Substack from '@/components/svgs/Substack';
 import X from '@/components/svgs/X';
+import Youtube from '@/components/svgs/Youtube';
 import Firebase from '@/components/technologies/Firebase';
 import Java from '@/components/technologies/Java';
 import JavaScript from '@/components/technologies/JavaScript';
@@ -53,7 +55,7 @@ export const heroConfig = {
   // Personal Information
   name: 'Harshit Yadav',
   title: 'Software Developer • Content Creator',
-  avatar: '/assets/logo.png',
+  avatar: '/assets/avatar.png',
 
   // Skills Configuration
   skills: [
@@ -116,7 +118,7 @@ export const socialLinks = [
   },
   {
     name: 'LinkedIn',
-    href: 'https://linkedin.com/in/hxshityadav',
+    href: 'https://www.linkedin.com/in/hxrshityadav/',
     icon: <LinkedIn />,
   },
   {
@@ -135,8 +137,18 @@ export const socialLinks = [
     icon: <Medium />,
   },
   {
+    name: 'YouTube',
+    href: 'https://youtube.com/@hxrshityadav',
+    icon: <Youtube />,
+  },
+  {
+    name: 'Substack',
+    href: 'https://hxrshit.substack.com/',
+    icon: <Substack />,
+  },
+  {
     name: 'Email',
-    href: 'mailto:hxrshityadav@gmail.com',
+    href: 'mailto:hello@harshityadav.dev',
     icon: <Mail />,
   },
 ];

@@ -6,6 +6,7 @@ import { generateMetadata as getMetadata } from '@/config/Meta';
 import { DM_Sans, Space_Mono } from 'next/font/google';
 import ReactLenis from 'lenis/react';
 import { ViewTransitions } from 'next-view-transitions';
+import { SmoothCursor } from '@/components/ui/smooth-cursor';
 
 import './globals.css';
 
@@ -46,6 +47,7 @@ export default function RootLayout({
               <Navbar />
               {children}
               <OnekoCat />
+              <SmoothCursor />
               <Footer />
             </ReactLenis>
 

@@ -1,6 +1,8 @@
+'use client';
+
 import { footerConfig } from '@/config/Footer';
 import { Link } from 'next-view-transitions';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Container from './Container';
 
 import Github from '@/components/svgs/Github';
@@ -10,7 +12,7 @@ import Mail from '@/components/svgs/Mail';
 import Medium from '@/components/svgs/Medium';
 import X from '@/components/svgs/X';
 import Youtube from '@/components/svgs/Youtube';
-import Pinterest from '@/components/svgs/Pinterest';
+import Substack from '@/components/svgs/Substack';
 
 const navigateLinks = [
   { name: 'Home', href: '/' },
@@ -28,16 +30,60 @@ const navigateLinks = [
 
 const connectLinks = [
   { name: 'X', href: 'https://x.com/HxrshitYadav', icon: <X className="size-5" /> },
-  { name: 'LinkedIn', href: 'https://linkedin.com/in/HxrshitYadav', icon: <LinkedIn className="size-5" /> },
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/in/hxrshityadav/', icon: <LinkedIn className="size-5" /> },
   { name: 'Github', href: 'https://github.com/HxrshitYadav', icon: <Github className="size-5" /> },
-  { name: 'Youtube', href: 'https://youtube.com', icon: <Youtube className="size-5" /> },
+  { name: 'Youtube', href: 'https://youtube.com/@hxrshityadav', icon: <Youtube className="size-5" /> },
   { name: 'Instagram', href: 'https://instagram.com/HxrshitYadav', icon: <Instagram className="size-5" /> },
-  { name: 'Pinterest', href: 'https://pinterest.com', icon: <Pinterest className="size-5" /> },
+  { name: 'Substack', href: 'https://hxrshit.substack.com/', icon: <Substack className="size-5" /> },
   { name: 'Medium', href: 'https://medium.com/@HxrshitYadav', icon: <Medium className="size-5" /> },
-  { name: 'Email', href: 'mailto:hxrshityadav@gmail.com', icon: <Mail className="size-5" /> },
+  { name: 'Email', href: 'mailto:hello@harshityadav.dev', icon: <Mail className="size-5" /> },
 ];
 
+function getOrdinalSuffix(i: number) {
+  const j = i % 10, k = i % 100;
+  if (j === 1 && k !== 11) {
+    return i + "st";
+  }
+  if (j === 2 && k !== 12) {
+    return i + "nd";
+  }
+  if (j === 3 && k !== 13) {
+    return i + "rd";
+  }
+  return i + "th";
+}
+
 export default function Footer() {
+  const [visitorCount, setVisitorCount] = useState<string>('1st');
+
+  useEffect(() => {
+    // 1. Try to fetch visitor count from Umami endpoint
+    fetch('/api/visitors')
+      .then((res) => {
+        if (!res.ok) throw new Error('Umami not configured');
+        return res.json();
+      })
+      .then((data) => {
+        if (data && typeof data.visitors === 'number') {
+          setVisitorCount(getOrdinalSuffix(data.visitors));
+        } else {
+          throw new Error('Invalid Umami stats data');
+        }
+      })
+      .catch(() => {
+        // 2. Fallback to counterapi.dev if Umami isn't configured
+        fetch('https://api.counterapi.dev/v1/harshityadav-portfolio/hits/up')
+          .then((res) => res.json())
+          .then((data) => {
+            if (data && typeof data.value === 'number') {
+              setVisitorCount(getOrdinalSuffix(data.value));
+            }
+          })
+          .catch(() => {
+            // Fallback silently if both are offline
+          });
+      });
+  }, []);
   return (
     <Container className="py-16">
       <div className="flex flex-col gap-16 sm:flex-row sm:justify-between">
@@ -86,7 +132,7 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} {footerConfig.developer}. {footerConfig.copyright}
         </p>
         <p className="text-[14px] text-muted-foreground">
-          You&apos;re the <span className="text-foreground font-medium">1st</span> visitor
+          You&apos;re the <span className="text-foreground font-medium">{visitorCount}</span> visitor
         </p>
       </div>
     </Container>

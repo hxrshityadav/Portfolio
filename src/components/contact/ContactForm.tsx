@@ -18,11 +18,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Check, AlertCircle } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
+import { motion, AnimatePresence } from 'motion/react';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, {
@@ -44,7 +45,7 @@ const contactFormSchema = z.object({
 type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 export default function ContactForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
@@ -56,36 +57,63 @@ export default function ContactForm() {
   });
 
   const onSubmit = async (data: ContactFormValues) => {
-    setIsSubmitting(true);
+    setStatus('submitting');
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          message: data.message,
-        }),
-      });
+      const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+      
+      let response;
+      if (accessKey) {
+        // Send directly client-side to bypass server-side Cloudflare blocks
+        response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({
+            access_key: accessKey,
+            name: data.name,
+            email: data.email,
+            message: data.message,
+            subject: 'New Contact Form Submission from Portfolio',
+            from_name: 'Portfolio Contact Form',
+          }),
+        });
+      } else {
+        // Fallback to local API route
+        response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            message: data.message,
+          }),
+        });
+      }
 
       const result = await response.json();
 
-      if (response.ok) {
+      if (response.ok && (result.success !== false)) {
+        setStatus('success');
         toast.success('Message sent successfully!');
         form.reset();
+        setTimeout(() => setStatus('idle'), 3000);
       } else {
+        setStatus('error');
         toast.error(
-          result.error || 'Failed to send message. Please try again.',
+          result.message || result.error || 'Failed to send message. Please try again.',
         );
+        setTimeout(() => setStatus('idle'), 3000);
       }
     } catch (error) {
       console.error('Error submitting form:', error);
+      setStatus('error');
       toast.error('Something went wrong. Please try again later.');
-    } finally {
-      setIsSubmitting(false);
+      setTimeout(() => setStatus('idle'), 3000);
     }
   };
 
@@ -150,15 +178,65 @@ export default function ContactForm() {
                   </FormItem>
                 )}
               />
-              <Button type="submit" disabled={isSubmitting} className="w-full cursor-pointer flex items-center justify-center gap-2 mt-2">
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  'Send message'
-                )}
+              <Button
+                type="submit"
+                disabled={status === 'submitting'}
+                className={`w-full cursor-pointer flex items-center justify-center gap-2 mt-2 transition-all duration-300 ${
+                  status === 'success'
+                    ? 'bg-green-600 hover:bg-green-600 text-white'
+                    : status === 'error'
+                    ? 'bg-red-600 hover:bg-red-600 text-white'
+                    : ''
+                }`}
+              >
+                <AnimatePresence mode="wait">
+                  {status === 'submitting' && (
+                    <motion.div
+                      key="submitting"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex items-center gap-2"
+                    >
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      Sending...
+                    </motion.div>
+                  )}
+                  {status === 'success' && (
+                    <motion.div
+                      key="success"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="flex items-center gap-2"
+                    >
+                      <Check className="h-4 w-4" />
+                      Message Sent!
+                    </motion.div>
+                  )}
+                  {status === 'error' && (
+                    <motion.div
+                      key="error"
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="flex items-center gap-2"
+                    >
+                      <AlertCircle className="h-4 w-4" />
+                      Failed to Send
+                    </motion.div>
+                  )}
+                  {status === 'idle' && (
+                    <motion.span
+                      key="idle"
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                    >
+                      Send message
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </Button>
             </form>
           </Form>

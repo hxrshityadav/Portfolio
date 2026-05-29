@@ -94,6 +94,99 @@ export async function POST(request: NextRequest) {
       submittedAt: new Date().toISOString(),
     });
 
+    const web3formsAccessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || process.env.WEB3FORMS_ACCESS_KEY;
+    const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
+    const telegramChatId = process.env.TELEGRAM_CHAT_ID;
+
+    let deliverySuccess = false;
+
+    // 1. Deliver via Web3Forms (Email)
+    if (web3formsAccessKey) {
+      try {
+        const responseWeb3 = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          },
+          body: JSON.stringify({
+            access_key: web3formsAccessKey,
+            name: validatedData.name,
+            email: validatedData.email,
+            message: validatedData.message,
+            subject: 'New Contact Form Submission from Portfolio',
+            from_name: 'Portfolio Contact Form',
+          }),
+        });
+
+        const responseText = await responseWeb3.text();
+        let web3Result;
+        try {
+          web3Result = JSON.parse(responseText);
+        } catch {
+          console.error('Web3Forms returned non-JSON response:', responseText);
+          throw new Error('Web3Forms response was not JSON');
+        }
+
+        if (web3Result.success) {
+          deliverySuccess = true;
+        } else {
+          console.error('Web3Forms delivery failed:', web3Result);
+        }
+      } catch (err) {
+        console.error('Error sending to Web3Forms:', err);
+      }
+    }
+
+    // 2. Deliver via Telegram (Optional backup/alternative)
+    if (telegramBotToken && telegramChatId) {
+      try {
+        const text = `📬 *New Contact Submission*\n\n*Name:* ${validatedData.name}\n*Email:* ${validatedData.email}\n*Message:* ${validatedData.message}`;
+        const responseTG = await fetch(
+          `https://api.telegram.org/bot${telegramBotToken}/sendMessage`,
+          {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: telegramChatId,
+              text: text,
+              parse_mode: 'Markdown',
+            }),
+          },
+        );
+        const tgResult = await responseTG.json();
+        if (tgResult.ok) {
+          deliverySuccess = true;
+        } else {
+          console.error('Telegram delivery failed:', tgResult);
+        }
+      } catch (err) {
+        console.error('Error sending to Telegram:', err);
+      }
+    }
+
+    if (!web3formsAccessKey && !telegramBotToken) {
+      return NextResponse.json(
+        {
+          error:
+            'Contact form is not configured yet. Please set WEB3FORMS_ACCESS_KEY in your environment to receive emails.',
+          success: false,
+        },
+        { status: 501 },
+      );
+    }
+
+    if (!deliverySuccess) {
+      return NextResponse.json(
+        {
+          error: 'Failed to send message. Please try again.',
+          success: false,
+        },
+        { status: 500 },
+      );
+    }
+
     return NextResponse.json(
       {
         message: 'Message sent successfully!',

@@ -87,7 +87,7 @@ export function CommandMenu() {
             break;
           case 'E':
             e.preventDefault();
-            navigator.clipboard.writeText('hxrshityadav@gmail.com');
+            navigator.clipboard.writeText('hello@harshityadav.dev');
             break;
           case 'S':
             e.preventDefault();
@@ -116,7 +116,7 @@ export function CommandMenu() {
   ];
 
   const actionItems = [
-    { title: 'Copy Email', desc: 'Copy email address to clipboard', icon: Mail, shortcut: 'Shift+E', action: () => navigator.clipboard.writeText('hxrshityadav@gmail.com') },
+    { title: 'Copy Email', desc: 'Copy email address to clipboard', icon: Mail, shortcut: 'Shift+E', action: () => navigator.clipboard.writeText('hello@harshityadav.dev') },
     { title: 'Share Page', desc: 'Share the current page', icon: Share2, shortcut: 'Shift+S', action: () => navigator.clipboard.writeText(window.location.href) },
     { title: 'View GitHub Profile', desc: 'Open GitHub profile in a new tab', icon: Code, shortcut: 'Shift+G', action: () => window.open('https://github.com/HxrshitYadav', '_blank') },
     { title: 'Open Spotify Song', desc: 'Open the currently playing Spotify song', icon: Music, shortcut: 'Shift+M', action: () => console.log('Spotify coming soon') },

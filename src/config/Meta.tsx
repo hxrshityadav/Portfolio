@@ -21,7 +21,7 @@ export const siteConfig = {
     twitter: '@HxshitYadav',
     github: 'HxshitYadav',
     linkedin: 'hxshityadav',
-    email: 'hxrshityadav@gmail.com',
+    email: 'hello@harshityadav.dev',
   },
   keywords: [
     'portfolio',
