@@ -3,7 +3,7 @@ import Monitor from '@/components/svgs/devices/Monitor';
 import { Separator } from '@/components/ui/separator';
 import { devices, software, webExtensions } from '@/config/Gears';
 import { generateMetadata as getMetadata } from '@/config/Meta';
-import { ArrowUpRight, Puzzle } from 'lucide-react';
+import { Link2, Puzzle } from 'lucide-react';
 import { Metadata } from 'next';
 import { Link } from 'next-view-transitions';
 import React from 'react';
@@ -52,7 +52,7 @@ export default function GearsPage() {
                     {device.href ? (
                       <Link target="_blank" href={device.href} className="hover:underline flex items-center gap-1">
                         {device.name}
-                        <ArrowUpRight className="size-4" />
+                        <Link2 className="size-3.5 text-muted-foreground" />
                       </Link>
                     ) : (
                       device.name
@@ -83,7 +83,7 @@ export default function GearsPage() {
                     <Link target="_blank" href={extension.href}>
                       {extension.name}
                     </Link>
-                    <ArrowUpRight className="size-4" />
+                    <Link2 className="size-3.5 text-muted-foreground" />
                   </h3>
                 </div>
               </div>
@@ -112,7 +112,7 @@ export default function GearsPage() {
                     <Link target="_blank" href={app.href}>
                       {app.name}
                     </Link>
-                    <ArrowUpRight className="size-4" />
+                    <Link2 className="size-3.5 text-muted-foreground" />
                   </h3>
                 </div>
               </div>
