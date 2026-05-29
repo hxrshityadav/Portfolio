@@ -48,7 +48,16 @@ export default function GearsPage() {
                   {device.icon}
                 </div>
                 <div className="flex flex-col">
-                  <h3 className="text-secondary text-sm">{device.name}</h3>
+                  <h3 className="text-secondary text-sm flex items-center gap-1">
+                    {device.href ? (
+                      <Link target="_blank" href={device.href} className="hover:underline flex items-center gap-1">
+                        {device.name}
+                        <ArrowUpRight className="size-4" />
+                      </Link>
+                    ) : (
+                      device.name
+                    )}
+                  </h3>
                 </div>
               </div>
             ))}

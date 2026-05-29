@@ -1,34 +1,34 @@
-import Headphones from '@/components/svgs/devices/Headphones';
 import Keyboard from '@/components/svgs/devices/Keyboard';
 import Laptop from '@/components/svgs/devices/Laptop';
 import Monitor from '@/components/svgs/devices/Monitor';
 import Mouse from '@/components/svgs/devices/Mouse';
-import Phone from '@/components/svgs/devices/Phone';
+import { Lightbulb } from 'lucide-react';
 
 export const devices = [
   {
-    name: 'Apple MacBook Pro 16"in M4 48GB 512GB',
+    name: 'Asus Vivobook S15',
+    href: 'https://amzn.to/4nUfxRo',
     icon: <Laptop className="size-4" />,
   },
   {
-    name: 'LG Ultragear 27GN650 (27 inch, 68.5 cm)',
+    name: 'BenQ GW2490 Monitor',
+    href: 'https://amzn.to/43CY1b6',
     icon: <Monitor className="size-4" />,
   },
   {
-    name: 'Magic Keyboard',
+    name: 'Aula F75 Keyboard',
+    href: 'https://amzn.to/49wdld4',
     icon: <Keyboard className="size-4" />,
   },
   {
-    name: 'Logitech MX Master 3S Mouse',
+    name: 'Amkette XS Flow Mouse',
+    href: 'https://amzn.to/43GVegY',
     icon: <Mouse className="size-4" />,
   },
   {
-    name: 'Crossbeats Roar 2.0 (Special Addition)',
-    icon: <Headphones className="size-4" />,
-  },
-  {
-    name: 'Samsung S23 (256 GB)',
-    icon: <Phone className="size-4" />,
+    name: 'Quntis Monitor Light Bar',
+    href: 'https://amzn.to/4331RKs',
+    icon: <Lightbulb className="size-4" />,
   },
 ];
 
