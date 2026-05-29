@@ -133,7 +133,7 @@ export const socialLinks = [
   },
   {
     name: 'Medium',
-    href: 'https://medium.com/@hxshityadav',
+    href: 'https://medium.com/@hxrshityadav',
     icon: <Medium />,
   },
   {
