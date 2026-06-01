@@ -33,9 +33,10 @@ export async function GET() {
 
     const data = await response.json();
     console.log('Umami API response data:', data);
-    const visitors = typeof data.visitors === 'number' 
-      ? data.visitors 
-      : (data.visitors?.value || 0);
+    // Use visits (total sessions) for the visitor counter
+    const visitors = typeof data.visits === 'number' 
+      ? data.visits 
+      : (data.visits?.value || 0);
 
     return NextResponse.json({ visitors });
   } catch (error) {
