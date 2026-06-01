@@ -7,6 +7,7 @@ import { DM_Sans, Space_Mono } from 'next/font/google';
 import ReactLenis from 'lenis/react';
 import { ViewTransitions } from 'next-view-transitions';
 import { SmoothCursor } from '@/components/ui/smooth-cursor';
+import UmamiAnalytics from '@/components/analytics/UmamiAnalytics';
 
 import './globals.css';
 
@@ -33,9 +34,7 @@ export default function RootLayout({
   return (
     <ViewTransitions>
       <html lang="en" suppressHydrationWarning>
-        <head>
-          <script defer src="https://cloud.umami.is/script.js" data-website-id="50114b90-1237-4566-b3e2-39cd5760b35f"></script>
-        </head>
+        <head />
         <body className={`${dmSans.variable} ${spaceMono.variable} ${spaceMono.className} antialiased`}>
           <ThemeProvider
             attribute="class"
@@ -44,6 +43,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ReactLenis root>
+              <UmamiAnalytics />
               <Navbar />
               {children}
               <OnekoCat />

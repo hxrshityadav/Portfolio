@@ -17,7 +17,7 @@ export async function GET() {
       `https://api.umami.is/v1/websites/${websiteId}/stats?startAt=${startAt}&endAt=${endAt}`,
       {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          'x-umami-api-key': token,
           'Accept': 'application/json',
         },
       }
