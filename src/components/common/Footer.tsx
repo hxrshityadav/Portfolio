@@ -58,7 +58,7 @@ export default function Footer() {
 
   useEffect(() => {
     // 1. Try to fetch visitor count from Umami endpoint
-    fetch('/api/visitors')
+    fetch('/api/visitors', { cache: 'no-store' })
       .then((res) => {
         if (!res.ok) throw new Error('Umami not configured');
         return res.json();
