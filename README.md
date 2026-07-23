@@ -2,7 +2,7 @@
 
 <div align="center">
   <p align="center">
-    A premium, highly-responsive, and sleek developer portfolio built using modern frontend technologies.
+    A premium, highly responsive, and sleek developer portfolio built using modern frontend technologies.
   </p>
 
   <p align="center">
