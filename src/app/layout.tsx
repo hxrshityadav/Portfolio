@@ -8,6 +8,7 @@ import ReactLenis from 'lenis/react';
 import { ViewTransitions } from 'next-view-transitions';
 import { SmoothCursor } from '@/components/ui/smooth-cursor';
 import UmamiAnalytics from '@/components/analytics/UmamiAnalytics';
+import { Analytics } from '@vercel/analytics/next';
 
 import './globals.css';
 
@@ -44,6 +45,7 @@ export default function RootLayout({
           >
             <ReactLenis root>
               <UmamiAnalytics />
+              <Analytics />
               <Navbar />
               {children}
               <OnekoCat />
