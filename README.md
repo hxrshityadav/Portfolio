@@ -28,7 +28,6 @@
 * **🔍 Command Center**: Press `/` anywhere on the site to trigger a sleek, keyboard-driven navigation palette allowing instant navigation across pages, built with Radix and `cmdk`.
 * **🎨 Rich Aesthetics**: Clean dark mode with frosted glassmorphic cards, harmonized layout grids, and premium micro-animations powered by Framer Motion.
 * **📬 Contact Form**: Styled Zod-validated contact form with client-side loading indicators and local terminal submission logging.
-* **🐱 Oneko Cat Sprite**: A playful interactive cat sprite that chases your mouse cursor around the screen (configurable!).
 * **📄 Markdown Blog**: Dynamic blog system powered by MDX allowing rich code blocks and easy publishing.
 * **📊 Analytics & SEO**: SEO optimized out of the box with custom dynamic metadata headers and optional privacy-friendly Umami Analytics.
 
